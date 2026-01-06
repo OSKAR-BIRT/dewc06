@@ -1,0 +1,11 @@
+.cabecera {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.card-img-custom {
+    width: 200px; /*Anchura fija*/
+    height: 100%;
+    object-fit: cover; /* Ajuste perfecto sin deformar */
+}
+

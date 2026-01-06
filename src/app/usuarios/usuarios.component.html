@@ -1,1 +1,79 @@
-<p>usuarios works!</p>
+
+<div class="container" *ngIf="this.mostrarUsuarios">
+    <div class="cabecera my-3 px-5 py-3 bg-success-subtle">
+        <h1 class="fw-bold text-center">USUARIOS REGISTRADOS</h1>
+    </div>
+    <div class="row row-cols-1 row-cols-md-6 g-4">
+        <div class="col" *ngFor="let usuario of usuarios">
+            <div class="card h-100 mt-3">
+                <img [src]="usuario.foto" class="card-img-top" alt="Avatar">
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text fs-4 text-center fw-bold text-decoration-underline">USUARIO {{ usuario.id}}</p>
+                    <p class="card-text fs-4 text-center">{{ usuario.nombre}} {{ usuario.apellidos }}</p>
+                    <div class="mt-auto pt-3 d-flex justify-content-around">
+                        <button (click)="formularioParaEditar(usuario.id)"
+                            class="btn btn-primary btn-sm me-2 fs-4">Editar</button>
+                        <button (click)="formularioParaBorrar(usuario.id)" class="btn btn-danger btn-sm fs-4">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-auto pt-3 mt-4 d-flex justify-content-center">
+        <button type="button" class="btn btn-success my-3 p-3" (click)="formularioParaCrear()">AÑADIR NUEVO USUARIO</button>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="!this.mostrarUsuarios">
+    <div class="cabecera my-3 px-5 py-3 bg-success-subtle">
+        <h1 class="fw-bold text-center">{{cabeceraFormulario}}</h1>
+    </div>
+    <div class="container w-50 mx-auto my-5 bg-primary-subtle">
+        <form #formContacto="ngForm" (ngSubmit)="onSubmit()">
+            <div class="d-flex">
+                <div class="w-75">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label ms-3 mb-0 fw-bold fs-5">NOMBRE</label>
+                        <input type="text" name="nombre" [(ngModel)]="nombreFormulario" class="form-control"
+                            id="nombre" aria-describedby="nombreHelp" required [disabled]="formularioBorrar">
+                        <div id="nombreHelp" class="form-text">Nombre del usuario. No poner los apellidos aquí.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidos" class="form-label ms-3 mb-0 fw-bold fs-5">APELLIDOS</label>
+                        <input type="text" name="apellidos" [(ngModel)]="apellidosFormulario" class="form-control"
+                            id="apellidos" aria-describedby="apellidoslHelp" required [disabled]="formularioBorrar">
+                        <div id="apellidosHelp" class="form-text">Apellidos del usuario</div>
+                    </div>
+                </div>
+                <div class="w-25 ms-3 mt-3">
+                    <img [src]="this.urlFormulario" class="card-img-top" alt="Avatar">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="urlFoto" class="form-label ms-3 mb-0 fw-bold fs-5">URL DE LA FOTO DE PERFIL</label>
+                <input type="url" name="url" [(ngModel)]="urlFormulario" class="form-control" id="urlFoto"
+                    aria-describedby="urlHelp" required [disabled]="formularioBorrar">
+                <div id="urlHelp" class="form-text">URL de la foto de perfil</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label ms-3 mb-0 fw-bold fs-5">EMAIL</label>
+                <input type="email" name="email" [(ngModel)]="emailFormulario" class="form-control" id="email"
+                    aria-describedby="emailHelp" required [disabled]="formularioBorrar">
+                <div id="emailHelp" class="form-text">URL de la foto de perfil</div>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="checkbox" [(ngModel)]="checkFormulario" class="form-check-input" id="modificarCheck">
+                <label class="form-check-label" for="modificarCheck">{{mensajeCheckBox}}</label>
+            </div>
+            <div class="mt-auto pt-3 d-flex justify-content-start">
+                <button type="submit" name="submit" class="btn btn-primary mb-3 mx-5" [disabled]="!checkFormulario">{{mensajeBoton}}</button>
+                <button type="button" class="btn btn-danger mb-3" (click)="cancelarFormulario()">CANCELAR</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+

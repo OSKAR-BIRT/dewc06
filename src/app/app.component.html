@@ -3,10 +3,11 @@
     <span class="navbar-brand text-danger fw-bold mx-2 fs-3">RED ELECTRICA ESPAÑOLA</span>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active text-dark fw-bold mx-2 fs-4" aria-current="page" href="#">HOME</a>
-        <a class="nav-link text-dark fw-bold mx-2 fs-4" href="#">DATOS ELECTRICOS</a>
-        <a class="nav-link text-dark fw-bold mx-2 fs-4" href="#">USUARIOS</a>
+        <a [routerLink]="['/']" class="nav-link active text-dark fw-bold mx-2 fs-4" aria-current="page" href="#">HOME</a>
+        <a [routerLink]="['/datos']" class="nav-link text-dark fw-bold mx-2 fs-4" href="#">DATOS ELECTRICOS</a>
+        <a [routerLink]="['/usuarios']" class="nav-link text-dark fw-bold mx-2 fs-4" href="#">USUARIOS</a>
       </div>
     </div>
   </div>
 </nav>
+<router-outlet></router-outlet>

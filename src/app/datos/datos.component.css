@@ -1,0 +1,40 @@
+#alcance{
+    min-width: 150px;
+}
+
+#contenedorJson {
+    padding-left: 30px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#contenedorJson h2 {
+    padding-right: 30px;
+}
+
+#tablaPintada, #tablaPintada th, #tablaPintada td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+td {
+    padding-right: 5px;
+    color: grey;
+    background-color: darkslategrey;
+}
+
+th {
+    background-color: black;
+}
+
+#grafico {
+    /* ¡Estos son los estilos clave a cambiar! */
+    width: 500px !important; 
+    height: 500px !important;
+    display: flex;
+    justify-content: center;
+}
+
