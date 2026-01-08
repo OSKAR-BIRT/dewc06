@@ -3,6 +3,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Usuario } from '../models/usuario';
 import { UsuariosService } from '../services/usuarios.service';
 import { DatosComponent } from '../datos/datos.component';
+import { LoginService } from '../services/login.service';
+import { BehaviorSubject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuarios',
@@ -29,10 +32,11 @@ export class UsuariosComponent {
   public accionFormulario: string = "";
   public idSeleccionado: number = 0;
   public formularioBorrar: boolean = false;
+  public isUserLoggedIn: boolean = false;
 
 
   constructor(_route: ActivatedRoute, _router: Router,
-    private _usuariosService: UsuariosService) {
+    private _usuariosService: UsuariosService, private _loginService: LoginService) {
     this._route = _route;
     this._router = _router;
     // Leer los usuarios
@@ -46,6 +50,11 @@ export class UsuariosComponent {
     });
     // Cargamos desde la API REST los datos de los usuarios
     this.cargarTodosLosUsuarios();
+
+    // Nos subscribimos al cambio del servicio login
+    this._loginService.loginStatus$.subscribe(status => {
+      this.isUserLoggedIn = status;
+    });
   }
 
 
@@ -90,6 +99,13 @@ export class UsuariosComponent {
   // Método que carga el formulario para añadir un usuario en la API REST
   // ************************************************************************************
   formularioParaCrear(): void {
+
+    // Comprobamos si estamos logeados, y si no lo estamos, salimos del método sin hacer nada
+    if (!this.isUserLoggedIn) {
+      this.popUpIrLogin();
+      return;
+    }
+
     this.mostrarUsuarios = false;
     this.cabeceraFormulario = "AÑADIR NUEVO USUARIO"
     this.mensajeBoton = "AÑADIR USUARIO";
@@ -108,6 +124,14 @@ export class UsuariosComponent {
   // Método que es llamado al pulsar EDITAR en la ficha de un usuario
   // ****************************************************************
   formularioParaEditar(id: number) {
+
+    // Comprobamos si estamos logeados, y si no lo estamos, salimos del método sin hacer nada
+    if (!this.isUserLoggedIn) {
+      this.popUpIrLogin();
+      return;
+    }
+
+    // Si llegamos a este punto es que estamos logeados
     this.mostrarUsuarios = false;
     this.cabeceraFormulario = "EDITAR DATOS DE USUARIO"
     this.mensajeBoton = "REGISTRAR CAMBIOS";
@@ -142,6 +166,13 @@ export class UsuariosComponent {
   // Método que es llamado por el formulario al pulsar el botón de BORRAR USUARIO para eliminar un usuario
   // *****************************************************************************************************
   formularioParaBorrar (id: number) {
+
+    // Comprobamos si estamos logeados, y si no lo estamos, salimos del método sin hacer nada
+    if (!this.isUserLoggedIn) {
+      this.popUpIrLogin();
+      return;
+    }
+
     this.mostrarUsuarios = false;
     this.cabeceraFormulario = "BORRAR USUARIO"
     this.mensajeBoton = "BORRAR USUARIO";
@@ -296,6 +327,23 @@ export class UsuariosComponent {
     this.formularioBorrar = false;
     // Dejamos de mostrar el formulario y mostramos los usuarios
     this.mostrarUsuarios = true;
+  }
+
+  popUpIrLogin() {
+      Swal.fire({
+        title: 'Acceso restringido',
+        text: 'Debes iniciar sesión para realizar esta acción',
+        icon: 'info', // También puedes usar 'warning' o 'error'
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ir al Login',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this._router.navigate(['/login']);
+        }
+      });
   }
 
 }

@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="cabecera my-3 px-5 py-3 bg-success-subtle">
+        <h1 class="fw-bold text-center">REGISTRO DE ADMINISTRADOR</h1>
+    </div>
+    <p class="fs-4">Para poder usar algunas de las opciones de este sitio web, como son crear, editar o borrar usuarios,
+        es necesario estar logeado en la web. Introduce tu usuario y password para registrarte. (user: admin pass: 1234)</p>
+    <div class="row row-cols-1 row-cols-md-6 g-4">
+        <div class="container w-50 mx-auto my-5 bg-primary-subtle">
+            <form #formContacto="ngForm" (ngSubmit)="login()">
+                <div class="mb-3">
+                    <label for="user" class="form-label ms-3 mb-0 fw-bold fs-5">USER</label>
+                    <input type="text" name="user" [(ngModel)]="user" class="form-control" id="user" aria-describedby="userHelp" required>
+                    <div id="userHelp" class="form-text">Nombre de usuario (para la práctica poner 'user')</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label ms-3 mb-0 fw-bold fs-5">PASSWORD</label>
+                    <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" aria-describedby="passHelp" required>
+                    <div id="passHelp" class="form-text">Nombre de usuario (para la práctica poner 'user')</div>
+                </div>
+                <div class="mt-auto pt-3 d-flex justify-content-start">
+                    <button type="submit" name="submit" class="btn btn-primary mb-3 mx-5">{{textoBotonLogin}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
