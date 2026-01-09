@@ -10,6 +10,6 @@ export class ConfiguracionService {
   constructor(private _http: HttpClient) { }
 
   obtenerConfiguracion() {
-    return this._http.get<Configuracion>('/config.json');
+    return this._http.get<Configuracion>('config.json');
   }
 }
