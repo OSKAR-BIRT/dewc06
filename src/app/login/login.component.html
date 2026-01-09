@@ -10,12 +10,12 @@
                 <div class="mb-3">
                     <label for="user" class="form-label ms-3 mb-0 fw-bold fs-5">USER</label>
                     <input type="text" name="user" [(ngModel)]="user" class="form-control" id="user" aria-describedby="userHelp" required>
-                    <div id="userHelp" class="form-text">Nombre de usuario (para la práctica poner 'user')</div>
+                    <div id="userHelp" class="form-text">Nombre de usuario (según el archivo config.json '{{configData?.user}}')</div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label ms-3 mb-0 fw-bold fs-5">PASSWORD</label>
                     <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" aria-describedby="passHelp" required>
-                    <div id="passHelp" class="form-text">Nombre de usuario (para la práctica poner 'user')</div>
+                    <div id="passHelp" class="form-text">Password (según el archivo config.json '{{configData?.password}}')</div>
                 </div>
                 <div class="mt-auto pt-3 d-flex justify-content-start">
                     <button type="submit" name="submit" class="btn btn-primary mb-3 mx-5">{{textoBotonLogin}}</button>

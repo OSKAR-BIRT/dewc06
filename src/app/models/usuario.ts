@@ -17,6 +17,7 @@ export class Usuario {
 
     // Métodos
     public getNombreCompleto() : string {
-        return this.nombre + " " + this.apellidos;
+        return this.apellidos + ", " + this.nombre;
+        // return this.nombre + " " + this.apellidos;
     }
 }

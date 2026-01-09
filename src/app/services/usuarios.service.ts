@@ -2,23 +2,22 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Usuario } from "../models/usuario";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ConsultasUsuariosService } from "./consultas.service";
-import { OnInit } from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class UsuariosService{
 
     public urlUsuarios: string = "";
 
-    constructor(private _consultaUsuarios : ConsultasUsuariosService, public _http : HttpClient) {
+    constructor(public _http : HttpClient) {
         this.urlUsuarios = "https://6957a87cf7ea690182d2ab39.mockapi.io/api/usuarios/";
     }
 
     // Métodos
     read() : Observable<any> {
-        return this._http.get(this.urlUsuarios);
+            return this._http.get(this.urlUsuarios);
     }
 
     readById(idUsuario: number) : Observable<any> {

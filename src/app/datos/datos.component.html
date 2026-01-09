@@ -1,7 +1,7 @@
 <div class="d-flex my-2 justify-content-center">
     <form class="">
         <label for="year" class="me-2">AÑO</label>
-        <select name="year" id="year">
+        <select [(ngModel)]=year name="year" id="year">
             <option value="" selected disabled hidden>-- Año --</option>
             <option value="2020">2020</option>
             <option value="2021">2021</option>
@@ -11,26 +11,29 @@
             <option value="2025">2025</option>
         </select>
         <label for="consulta" class="me-2 ms-5">CONSULTA</label>
-        <select name="consulta" id="consulta">
+        <select [(ngModel)]=consulta name="consulta" id="consulta">
             <option value="" selected disabled hidden>-- Consulta --</option>
             <option value="INSTALADA">POTENCIA INSTALADA</option>
             <option value="ESTRUCTURA">ESTRUCTURA DE GENERACION</option>
         </select>
 
         <label for="alcance" class="me-2 ms-5">ALCANCE DE LA CONSULTA</label>
-        <select name="alcance" id="alcance">
+        <select [(ngModel)]=alcance name="alcance" id="alcance">
             <option value="" selected disabled hidden></option>
         </select>
 
-        <button type="button" id="enviarConsulta" class="ms-5 rounded">ENVIAR CONSULTA</button>
+        <button type="button" id="enviarConsulta" class="ms-5 rounded" (click)="enviarConsulta()">ENVIAR CONSULTA</button>
 
     </form>
 
 </div>
 
 
-<main>
-    <div id="contenedorJson">
-
+<div class="container d-flex">
+    <div class="w-50 mt-5 mx-auto">
+        <img class="img-fluid"
+            src="https://upload.wikimedia.org/wikipedia/commons/1/1e/SITIO-EN-CONSTRUCCION.jpg"
+            alt="logo REE">
     </div>
-</main>
+</div>
+

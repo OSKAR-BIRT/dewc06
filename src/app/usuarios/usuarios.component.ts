@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrl: './usuarios.component.css',
   providers: [UsuariosService]
 })
-export class UsuariosComponent {
+export class UsuariosComponent implements OnInit{
 
   private _route: ActivatedRoute;
   private _router: Router;
@@ -35,15 +35,17 @@ export class UsuariosComponent {
   public isUserLoggedIn: boolean = false;
 
 
-  constructor(_route: ActivatedRoute, _router: Router,
+  constructor(_route: ActivatedRoute, _router: Router, 
     private _usuariosService: UsuariosService, private _loginService: LoginService) {
     this._route = _route;
     this._router = _router;
     // Leer los usuarios
   }
-  // ***************************************************************************
-  // En ngOnInit lo que hacemos es cargar el router y leemos todos los usuarios
-  // ***************************************************************************
+
+
+  // ********************************************************************************************
+  // En ngOnInit lo que hacemos es cargar el router, la configuracion y leemos todos los usuarios
+  // ********************************************************************************************
   ngOnInit(): void {
     this._route.params.subscribe((params: Params) => {
       this.nombreURL = params['nombre'];
@@ -102,7 +104,7 @@ export class UsuariosComponent {
 
     // Comprobamos si estamos logeados, y si no lo estamos, salimos del método sin hacer nada
     if (!this.isUserLoggedIn) {
-      this.popUpIrLogin();
+      this.popUpIrLogin("Acceso restringido", "Debes iniciar sesión para poder crear usuarios");
       return;
     }
 
@@ -127,7 +129,7 @@ export class UsuariosComponent {
 
     // Comprobamos si estamos logeados, y si no lo estamos, salimos del método sin hacer nada
     if (!this.isUserLoggedIn) {
-      this.popUpIrLogin();
+      this.popUpIrLogin("Acceso restringido", "Debes iniciar sesión para poder editar usuarios");
       return;
     }
 
@@ -169,7 +171,7 @@ export class UsuariosComponent {
 
     // Comprobamos si estamos logeados, y si no lo estamos, salimos del método sin hacer nada
     if (!this.isUserLoggedIn) {
-      this.popUpIrLogin();
+      this.popUpIrLogin("Acceso restringido", "Debes iniciar sesión para poder borrar usuarios");
       return;
     }
 
@@ -292,30 +294,29 @@ export class UsuariosComponent {
   onSubmit() {
     this.checkFormulario = false;
     this.formularioBorrar = false;
-    
-    if (this.accionFormulario == "borrar") { // Acciones si el formulario es de borrar
-      this.borrarUsuario(this.idSeleccionado);
-      this.mostrarUsuarios = true;
 
-    } else if (this.accionFormulario == "editar") {  // Acciones si el formulario es de editar
-      let formularioCorrecto = this.nombreFormulario != "" && this.apellidosFormulario != "";
-      formularioCorrecto = formularioCorrecto && this.urlFormulario != "" && this.emailFormulario != "";
-      if (formularioCorrecto) {
+    if (this.formularioCorrecto()) {
+
+      if (this.accionFormulario == "borrar") { // Acciones si el formulario es de borrar
+        this.borrarUsuario(this.idSeleccionado);
+        this.mostrarUsuarios = true;
+      } else if (this.accionFormulario == "editar") {  // Acciones si el formulario es de editar
         this.modificarUsuario(this.idSeleccionado);
         this.mostrarUsuarios = true;
-      }
-
-    } else if (this.accionFormulario == "crear") { // Acciones si el formulario es de crear
-      let formularioCorrecto = this.nombreFormulario != "" && this.apellidosFormulario != "";
-      formularioCorrecto = formularioCorrecto && this.urlFormulario != "" && this.emailFormulario != "";
-      if (formularioCorrecto) {
+      } else if (this.accionFormulario == "crear") { // Acciones si el formulario es de crear
         this.crearUsuario();
         this.mostrarUsuarios = true;
+      } else {
+        // Preparado por si se añaden más opciones
       }
+
     } else {
-      // Preparado por si se añaden más opciones
+      this.popUpEnviarFormErroneo("ERROR EN EL FORMULARIO", "Alguno de los datos introducidos en el formulario no cumple con los requisitos. Reviseló por favor");
     }
+
+
   }
+
 
   // **************************************************************************
   // Método que se ejecuta al pulsar CANCELAR en el formulario (EDITAR O CREAR)
@@ -329,10 +330,14 @@ export class UsuariosComponent {
     this.mostrarUsuarios = true;
   }
 
-  popUpIrLogin() {
+
+  // *********************************************************************************************
+  // Método que genera una ventana emergente al intentar usar opciones que necesitan estar logeado
+  // *********************************************************************************************
+  popUpIrLogin(titulo: string, texto: string) {
       Swal.fire({
-        title: 'Acceso restringido',
-        text: 'Debes iniciar sesión para realizar esta acción',
+        title: titulo,
+        text: texto,
         icon: 'info', // También puedes usar 'warning' o 'error'
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -344,6 +349,38 @@ export class UsuariosComponent {
           this._router.navigate(['/login']);
         }
       });
+  }
+
+
+  // *********************************************************************************************
+  // Método que genera una ventana emergente al intentar enviar un formulario con campos erróneos
+  // *********************************************************************************************
+  popUpEnviarFormErroneo(titulo: string, texto: string) {
+      Swal.fire({
+        title: titulo,
+        text: texto,
+        icon: 'error', // También puedes usar 'warning' o 'error'
+        // showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Corregir error',
+        // cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // this._router.navigate(['/login']);
+        }
+      });
+  }
+
+  // *************************************************************************************************
+  // Método que comprueba que los datos introducidos en el formulario cumplan con una serie de reglas
+  // *************************************************************************************************
+  formularioCorrecto(): boolean {
+    const nombreCorrecto = this.nombreFormulario != "";
+    const apellidosCorrectos = this.apellidosFormulario != "";
+    const urlCorrecta = this.urlFormulario != "";
+    const emailCorrecto = this.emailFormulario != "";
+    return nombreCorrecto && apellidosCorrectos && urlCorrecta && emailCorrecto;
   }
 
 }
